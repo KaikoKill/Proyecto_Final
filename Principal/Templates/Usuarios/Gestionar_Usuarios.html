@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- Inicio del Contenido de Pagina -->
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Gestionar Usuarios</h1>
+    <!-- DataTales Example -->
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row justify-content-between">
+                        <div class="col-xs-6">
+                            <h2>Listado <b>Usuarios</b></h2>
+                        </div>   
+                                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                    </div>
+                                </form>
+                        <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                            <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
+                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre de Usuario</th>
+                            <th>Nombre(s)</th>
+                            <th>Apellidos</th>
+                            <th>Correo UCI</th>
+                            <th>Sexo</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{u.username}}</td>
+                            <td>{{u.first_name}}</td>
+                            <td>{{u.last_name}}</td>
+                            <td>{{u.email}}</td>
+                            <th>{{u.sexo}}</th>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" 
+                                data-id="{{u.id}}"
+                                data-username="{{u.username}}"
+                                data-first_name="{{u.first_name}}"
+                                data-last_name="{{u.last_name}}"
+                                data-email="{{u.email}}"
+                                data-sexo="{{u.sexo}}"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" data-id="{{u.id}}"><i class="material-icons" data-toggle="tooltip" title="Borrar">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No hay usuarios disponibles.</td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Anterior</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <!-- Create Modal HTML -->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action= "{% url 'Crear_Usuario'%}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Añadir Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <div class="form-group">
+                            <label>Nombre de usuario</label>
+                            <input type="text" class="form-control" required name = "username">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre(s)</label>
+                            <input type="text" class="form-control" required name="first_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos</label>
+                            <input type="text" class="form-control" required name = "last_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Edad</label>
+                            <input type="text" class="form-control" required name = "edad">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" required name="password1">
+                        </div>       
+                        <div class="form-group">
+                            <label>Confirmar Contraseña</label>
+                            <input type="password" class="form-control" required name = "password2">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo UCI</label>
+                            <input type="email" class="form-control" required name="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Rol</label>
+                            <select class="form-control" required name="es_estudiante">
+                                <option value = true >Estudiante</option>
+                                <option value = false >Jefe de Departamento</option>                          
+                            </select>
+                        </div>		
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select class="form-control" required name="sexo">
+                                <option value = "Otro">Otro</option>
+                                <option value = "Femenino">Femenino</option>
+                                <option value = "Masculino">Masculino</option>                            
+                            </select>
+                        </div>				
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-success" value="Aceptar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="editEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" action="{% url 'Modificar_Usuario' 0 %}" method="POST">
+                    {% csrf_token %}                
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Editar Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <div class="form-group">
+                            <label>Foto de Perfil</label>
+                            <div class="img-profile rounded-circle">
+                                <img src="{% static '\Principal\img\undraw_profile_1.svg' %}">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre de usuario</label>
+                            <input type="text" class="form-control" required name = "username">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre(s)</label>
+                            <input type="text" class="form-control" required name="first_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos</label>
+                            <input type="text" class="form-control" required name = "last_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Edad</label>
+                            <input type="text" class="form-control" required name = "edad">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" required name= "password" >
+                        </div>       
+                        <div class="form-group">
+                            <label>Confirmar Contraseña</label>
+                            <input type="password" class="form-control" required >
+                        </div>
+                        <div class="form-group">
+                            <label>Correo UCI</label>
+                            <input type="email" class="form-control" required name="email">
+                        </div>
+                        <div class="form-group" >
+                            <label>Sexo</label>
+                            <select class="form-control" required name = "sexo">
+                                <option value = "Otro">Otro</option>
+                                <option value = "Femenino">Femenino</option>
+                                <option value = "Masculino">Masculino</option>                            
+                            </select>
+                        </div>				
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-info" value="Aceptar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- exito Modal HTML -->
+    <div id="exitoEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Éxito</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>Se ha creado el usuario exitosamente</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto">Mensaje</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Hello, world! This is a toast message.
+          </div>
+        </div>
+      </div>
+    <!-- Delete Modal HTML -->
+    <div id="deleteEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteUserForm" action="{% url 'Eliminar_Usuario' 0 %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Eliminar Usuario/s</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>¿Esta seguro de querer eliminar el/los usuario/s de la plataforma ?</p>
+                        <p class="text-warning"><small>Esta acción no se puede revertir.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-danger" value="Eliminar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
+<!-- Fin del Contenido de Pagina -->
+ {% block extrajs %}
+ <script type="text/javascript">
+    var $ = jQuery.noConflict()
+    $(document).ready(function(){
+        // Abrir modal de edición y ajustar acción del formulario
+        $('#editEmployeeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var userId = button.data('id'); // Extraer info de los atributos data-*
+            var username = button.data('username');
+            var firstName = button.data('first_name');
+            var lastName = button.data('last_name');
+            var email = button.data('email');
+            var sexo = button.data('sexo');
+
+            var modal = $(this);
+            var actionUrl = "{% url 'Modificar_Usuario' 0 %}".replace('0', userId);
+            modal.find('form#editUserForm').attr('action', actionUrl);
+
+            // Rellenar los campos del formulario con los valores extraídos
+            modal.find('input[name="username"]').val(username);
+            modal.find('input[name="first_name"]').val(firstName);
+            modal.find('input[name="last_name"]').val(lastName);
+            modal.find('input[name="email"]').val(email);
+            modal.find('select[name="sexo"]').val(sexo);
+        });
+                // Abrir modal de eliminación y ajustar acción del formulario
+        $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var userId = button.data('id'); // Extraer info de los atributos data-*
+
+            var modal = $(this);
+            var actionUrl = "{% url 'Eliminar_Usuario' 0 %}".replace('0', userId);
+            modal.find('form#deleteUserForm').attr('action', actionUrl);
+        });
+
+        // Obtener los parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+            
+        // Comprobar si existe el parámetro 'created'
+        if (params.has('created')) {
+            // Mostrar la notificación usando modal
+            $('#exitoEmployeeModal').modal('show');
+        }
+    });
+</script>
+ {% endblock extrajs %}

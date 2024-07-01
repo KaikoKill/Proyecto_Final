@@ -1,0 +1,77 @@
+
+
+.targeta{
+  width: 400px;
+  border: none;
+  border-radius: 10px;
+   
+  background-color: #fff;
+}
+
+
+
+.stats{
+
+      background: #f2f5f8 !important;
+
+    color: #000 !important;
+}
+.articles{
+  font-size:10px;
+  color: #a1aab9;
+}
+.number1{
+  font-weight:500;
+}
+.followers{
+    font-size:10px;
+  color: #a1aab9;
+
+}
+.number2{
+  font-weight:500;
+}
+.rating{
+    font-size:10px;
+  color: #a1aab9;
+}
+.number3{
+  font-weight:500;
+}
+
+/* Estilo para el botón */
+.btn-custom-outline {
+    background-color: transparent; /* Fondo transparente */
+    color: #212529; /* Color del texto, generalmente negro */
+    border: 1px solid; /* Borde sólido */
+    border-color: #007bff; /* Color del borde, generalmente azul */
+    padding: 0.375rem 0.75rem; /* Espaciado interior */
+    font-size: 1rem; /* Tamaño de fuente */
+    line-height: 1.5; /* Altura de línea */
+    border-radius: 0.25rem; /* Radio de bordes */
+    cursor: pointer; /* Cambio de cursor al pasar el mouse */
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; /* Transiciones suaves */
+}
+
+/* Estilo para el hover del botón */
+.btn-custom-outline:hover {
+    color: #ffffff; /* Color del texto en hover, generalmente blanco */
+    background-color: #007bff !important; /* Fondo azul en hover */
+    border-color: #007bff; /* Borde azul en hover */
+}
+
+/* Estilo para el focus del botón */
+.btn-custom-outline:focus {
+    color: #ffffff; /* Color del texto en focus, generalmente blanco */
+    background-color: #0069d9; /* Fondo azul claro en focus */
+    border-color: #0056b3; /* Borde azul oscuro en focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra alrededor del botón en focus */
+}
+
+/* Estilo para el active del botón */
+.btn-custom-outline:active {
+    color: #ffffff; /* Color del texto en active, generalmente blanco */
+    background-color: #0056b3; /* Fondo azul oscuro en active */
+    border-color: #004085; /* Borde azul oscuro en active */
+}
+

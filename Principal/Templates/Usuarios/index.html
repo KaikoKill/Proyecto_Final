@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{%load static%}
+<!-- Inicio del Contenido de Pagina -->
+{%block content%}
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Eventos Disponibles</h1>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Earnings (Monthly) Card Example -->
+    {% for e in eventos %}
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+              >
+              <a href="{% url 'Ver_Convocatorias'%}">Evento</a>
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{e.nombre_evento}}</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+   
+
+    <!-- Content Row -->
+
+    <div class="row"></div>
+
+    <!-- Content Row -->
+    <div class="row" >
+      <!-- Content Column -->
+      <div class="col-lg-6 mb-4">
+        
+        <!-- Reglamento -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+              Política de requisitos para las inscripciones
+            </h6>
+          </div>
+          <div class="card-body">
+            <p>
+              <h2><strong>Objetivo</strong></h2>
+              <br>
+              Fomentar la participación activa y enriquecedora de nuestros estudiantes en los eventos organizados por la Universidad de las Ciencias Informáticas (UCI), asegurando un ambiente de aprendizaje, colaboración y desarrollo integral.
+              <br>
+              <br>
+              <h2><strong>Requisitos Generales</strong></h2>
+              <br>
+              <h3><strong>Elegibilidad Académica:</strong></h3>
+              <br>
+              -Estar matriculado como estudiante regular en cualquier carrera de la UCI.
+              <br>
+              <br>
+              -No tener materias pendientes o una carga académica que comprometa su participación activa en el evento.
+              <br>
+              <br>
+              <br>
+              <h3><strong>Perfil del Participante:</strong></h3>
+              <br>
+              -Mostrar interés y motivación en la temática del evento.
+              <br>
+              <br>
+              -Presentar una actitud positiva y colaborativa.
+              <br>
+              <br>
+              -Compromiso con la puntualidad y asistencia a todas las actividades programadas.
+              <br>
+              <br>
+              <h3><strong>Eventos Académicos y Científicos:</strong></h3>
+              
+              <br>
+              -Haber completado al menos un 50% del plan de estudios de su carrera.
+              <br>
+              <br>
+              -Presentar un resumen de un proyecto, investigación o artículo relacionado con la temática del evento.
+              <br>
+              <br>
+              -Poseer un promedio académico igual o superior a 80 puntos.
+              <br>
+              <br>
+              <h3><strong>Asistencia y Puntualidad:</strong></h3>
+              
+              <br>
+              -Comprometerse a asistir a todas las sesiones y actividades del evento, siendo puntuales en cada una de ellas.
+              <br>
+              <br>
+              -Justificar cualquier ausencia con antelación, presentando los motivos correspondientes.
+              <br>
+              <br>
+              -Código de Conducta:
+              <br>
+
+              <br>
+              -Mantener un comportamiento respetuoso y colaborativo con todos los participantes y organizadores.
+              <br>
+              <br>
+              -Cumplir con las normas y regulaciones establecidas por la universidad y los organizadores del evento.
+              <br>
+              <br>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        
+        <!-- Reglamento -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+              Actividades
+            </h6>
+          </div>
+          <div class="card-body">
+            <div>
+              <img src = "{% static 'Principal/img/DAnYVw8W0AETUTQ.jpg'%}" width = "100%">
+            </div>
+            <div class = "mt-4">
+              <img src = "{% static 'Principal/img/OIP.jfif'%}" width = "100%">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+  <!-- /.container-fluid -->
+</div>
+{%endblock%}
+<!-- Fin del Contenido de Pagina -->

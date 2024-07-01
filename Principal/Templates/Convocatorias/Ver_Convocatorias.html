@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- Inicio del Contenido de Pagina -->
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Convocatorias</h1>
+    <!-- DataTales Example -->
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row justify-content-between">
+                        <div class="col-xs-6">
+                            <h2>Listado <b>Convocatorias</b></h2>
+                        </div>   
+                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
+                                    aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre</th>
+                            <th>Evento</th>
+                            <th>Descripción</th>
+                            <th>Requisitos</th>
+                            <th>Ubicación</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in conv%}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{c.nombre_convocatoria}}</td>
+                            <td>{{c.evento.nombre_evento}}</td>
+                            <td>{{c.evento.descripcion}}</td>
+                            <td>{{c.evento.requisitos}}</td>
+                            <td>{{c.ubicacion}}</td>
+                            <td>{{c.fecha}}</td>
+                            <td>{{c.hora}}</td>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-id="{{c.id}}"><i class="material-icons" data-toggle="tooltip" title="Inscribirse">&#xE254;</i></a>
+                            </td>
+                        </tr> 
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No hay convocatorias disponibles.</td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Anterior</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>        
+    </div> 
+    <!-- Edit Modal HTML -->
+    <div id="editEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{% url 'Enviar_Inscripcion' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Crear Inscripcion</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <div class="form-group">
+                            <label>Nombre del Equipo</label>
+                            <input type="text" class="form-control" required name = "nombre_equipo">
+                        </div>
+                        <div class="form-group">
+                            <label>Integrantes</label>
+                            <input type="text" class="form-control" required name = "integrante1" placeholder="Integrante 1" >
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" required name = "integrante2" placeholder="Integrante 2" >
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" required name = "integrante3" placeholder="Integrante 3" >
+                        </div>
+                        <input type="hidden" class="form-control" id="conv_id" name="convocatoria">
+                        <input type="hidden" class="form-control" id="user_id" name = "usuario" value ="{{user_custom.id}}"> 		
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-info" value="Aceptar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
+<!-- Fin del Contenido de Pagina -->
+{% block extrajs %}
+<script type="text/javascript">
+   var $ = jQuery.noConflict()
+   $(document).ready(function(){
+       // Abrir modal de edición y ajustar acción del formulario
+       $('#editEmployeeModal').on('show.bs.modal', function (event) {
+           var button = $(event.relatedTarget); // Botón que activó el modal
+           var conv_id = button.data('id'); // Extraer info de los atributos data-*
+
+           var modal = $(this);
+           modal.find('input[name="convocatoria"]').val(conv_id);
+       });
+   });
+</script>
+{% endblock extrajs %}

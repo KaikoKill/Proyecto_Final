@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- Inicio del Contenido de Pagina -->
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Resultados</h1>
+    <!-- DataTales Example -->
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row justify-content-between">
+                        <div class="col-xs-6">
+                            <h2>Listado <b>Resultados</b></h2>
+                        </div>
+                        <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre del equipo</th>
+                            <th>Evento</th>
+                            <th>Lugar</th>
+                            <th>Puntuación</th>
+                            <th>Resultados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in resu%}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{r.inscripcion.nombre_equipo}}</td>
+                            <td>{{r.evento.nombre_evento}}</td>
+                            <td>{{r.get_ubicacion}}</td>
+                            <td>{{r.puntuacion}}</td>
+                            <td>{{r.puesto}}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No hay Resultados</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Anterior</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+{% endblock %}
+<!-- Fin del Contenido de Pagina -->

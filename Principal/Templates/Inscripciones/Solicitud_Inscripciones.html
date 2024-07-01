@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- Inicio del Contenido de Pagina -->
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Aceptar/Denegar Inscripciones</h1>
+    <!-- DataTales Example -->
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row justify-content-between">
+                        <div class="col-xs-6">
+                            <h2>Listado de solicitud de<b> Inscripciones</b></h2>
+                        </div>   
+                                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
+                                        aria-label="Search" aria-describedby="basic-addon2">
+                                    </div>
+                                </form>
+
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre del Equipo</th>
+                            <th>Evento</th>
+                            <th>Integrantes</th>
+                            <th>Requisitos</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in incri %}
+                        {% if i.estado == "Esperando"%}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{i.nombre_equipo}}</td>
+                            <td>{{i.convocatoria.evento.nombre_evento}}</td>
+                            <td>{{i.integrante1}},{{i.integrante2}},{{i.integrante3}}</td>
+                            <td>{{i.convocatoria.evento.requisitos}}</td>
+                            <td><strong>{{i.estado}}</strong></td>
+                            <td>
+                                    <a href="#aceptarEmployeeModal" class="edit" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Aceptar">&#xE254;</i></a>
+                                    <a href="#denegarEmployeeModal" class="delete" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Denegar">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No se ha efectuado ninguna inscripcion.</td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Anterior</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>        
+    </div>
+    
+
+    <!-- Edit Modal HTML -->
+    <div id="aceptarEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="aceptarIncriForm" action = "{% url 'Aceptar_Inscripcion' 0 %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Aceptar Inscripcion</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>¿Esta seguro de aceptar esta inscripción?</p>
+                        <input type="hidden" class="form-control" name="estado" value = "Aceptada">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-info" value="Aceptar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div id="denegarEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="denegarIncriForm" action = "{% url 'Denegar_Inscripcion' 0 %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Denegar Inscripcion</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>¿Esta seguro de denegar esta inscripción?</p>
+                        <input type="hidden" class="form-control" name="estado" value = "Denegada">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-danger" value="Aceptar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>                                                                                                                                                   
+{%endblock%}
+<!-- Fin del Contenido de Pagina -->
+{% block extrajs %}
+<script type="text/javascript">
+   var $ = jQuery.noConflict()
+   $(document).ready(function(){
+       // Abrir modal de edición y ajustar acción del formulario
+       $('#aceptarEmployeeModal').on('show.bs.modal', function (event) {
+           var button = $(event.relatedTarget); // Botón que activó el modal
+           var incri_id = button.data('id'); // Extraer info de los atributos data-*
+           var modal = $(this);
+           var actionUrl = "{% url 'Aceptar_Inscripcion' 0 %}".replace('0', incri_id);
+           modal.find('form#aceptarIncriForm').attr('action', actionUrl);
+       });
+       $('#denegarEmployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que activó el modal
+        var incri_id = button.data('id'); // Extraer info de los atributos data-*
+        var modal = $(this);
+        var actionUrl = "{% url 'Denegar_Inscripcion' 0 %}".replace('0', incri_id);
+        modal.find('form#denegarIncriForm').attr('action', actionUrl);
+    });
+   });
+</script>
+{% endblock extrajs %}
