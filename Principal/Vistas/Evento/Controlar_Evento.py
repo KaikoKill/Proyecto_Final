@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models import QuerySet
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -13,8 +15,12 @@ class Gestionar_Eventos(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     context_object_name = 'eventos'
     paginate_by = 5
       
-    def get_queryset(self):
-        return Evento.objects.all()
+    def get_queryset(self) -> QuerySet[Any]:
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Evento.objects.filter(nombre_evento__icontains=q)
+        return super().get_queryset()
     
     def test_func(self):
         return self.request.user.is_staff

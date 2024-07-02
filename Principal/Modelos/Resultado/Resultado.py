@@ -12,7 +12,11 @@ class Resultado(models.Model):
     puntuacion = models.IntegerField()
     def __str__(self):
         return self.evento.nombre_evento
+    
     def get_ubicacion(self):
         conv=Convocatoria.objects.get(evento=self.evento)
         return conv.ubicacion
+    
+    def get_nombre_equipo(self):
+        return self.inscripcion.nombre_equipo
        

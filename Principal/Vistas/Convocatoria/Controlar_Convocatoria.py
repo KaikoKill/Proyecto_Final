@@ -1,4 +1,6 @@
+from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import QuerySet
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -14,8 +16,12 @@ class Ver_Convocatorias(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     context_object_name = 'conv'
     paginate_by = 5
       
-    def get_queryset1(self):
-        return Convocatoria.objects.all()
+    def get_queryset(self) -> QuerySet[Any]:
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Convocatoria.objects.filter(nombre_convocatoria__icontains=q)
+        return super().get_queryset()
     
     def get_queryset2(self):
         return Usuario.objects.all()
@@ -37,8 +43,12 @@ class Gestionar_Convocatorias(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     context_object_name = 'conv'
     paginate_by = 5
       
-    def get_queryset(self):
-        return Convocatoria.objects.all()
+    def get_queryset(self) -> QuerySet[Any]:
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Convocatoria.objects.filter(nombre_convocatoria__icontains=q)
+        return super().get_queryset()
     
     def test_func(self):
         return self.request.user.is_staff

@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
@@ -11,6 +12,7 @@ from django.views.generic import FormView, ListView, CreateView, UpdateView, Del
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from Principal.Vistas.Usuario.forms import UsuarioModelForm, UsuarioUpdateModelForm
 from django.contrib import messages
+from django.db.models import QuerySet
 
 def error404(request):
     return render(request, "Usuarios/404.html")
@@ -49,8 +51,12 @@ class Administrar_Permisos(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     context_object_name = 'users'
     paginate_by = 5
       
-    def get_queryset(self):
-        return Usuario.objects.all()
+    def get_queryset(self) -> QuerySet[Any]:
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Usuario.objects.filter(username__icontains=q)
+        return super().get_queryset()
     
     def test_func(self):
         return self.request.user.is_staff
@@ -70,9 +76,15 @@ class listUserView(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     template_name = 'Usuarios/Gestionar_Usuarios.html'  
     context_object_name = 'users'
     paginate_by = 5
+     
     
-    def get_queryset(self):
-        return Usuario.objects.all()
+    def get_queryset(self) -> QuerySet[Any]:
+        
+        q = self.request.GET.get('q')
+        if q:
+            return Usuario.objects.filter(username__icontains=q)
+        return super().get_queryset()
+    
     
     def test_func(self):
         return self.request.user.is_staff
@@ -116,7 +128,7 @@ class UserCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
         instance.save()
 
         return super().form_valid(form)
-    
+        
 
     def test_func(self):
         return self.request.user.is_staff
