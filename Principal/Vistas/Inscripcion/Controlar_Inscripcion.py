@@ -12,6 +12,7 @@ class Ver_Inscripciones(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Inscripcion
     template_name = 'Inscripciones/Ver_Inscripciones.html'  
     context_object_name = 'incri'
+    paginate_by = 5
       
     def get_queryset(self):
         return Inscripcion.objects.all()
@@ -32,7 +33,8 @@ class Gestionar_Inscripciones(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Inscripcion
     template_name = 'Inscripciones/Gestionar_Inscripciones.html'  
     context_object_name = 'incri'
-      
+    paginate_by = 5
+         
     def get_queryset(self):
         return Inscripcion.objects.all()
     
@@ -53,6 +55,7 @@ class Solicitud_Inscripciones(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Inscripcion
     template_name = 'Inscripciones/Solicitud_Inscripciones.html'  
     context_object_name = 'incri'
+    paginate_by = 5
       
     def get_queryset(self):
         return Inscripcion.objects.all()
@@ -72,7 +75,7 @@ class Enviar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Create
     model = Inscripcion
     template_name = 'Convocatorias/Ver_Convocatorias.html'
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
-    success_url = reverse_lazy('Ver_Inscripciones')
+    success_url = "/Ver_Inscripciones/?edit"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -113,7 +116,7 @@ class Editar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Update
     model = Inscripcion
     template_name = 'Convocatorias/Ver_Convocatorias.html'
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
-    success_url = reverse_lazy('Ver_Inscripciones')
+    success_url = "/Ver_Inscripciones/?edit"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -147,7 +150,7 @@ class Agregar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Creat
     model = Inscripcion
     template_name = 'Inscripciones/Gestionar_Inscripciones.html'
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
-    success_url = reverse_lazy('Gestionar_Inscripciones')
+    success_url = "/Gestionar_Inscripciones/?created"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -187,7 +190,7 @@ class Modificar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Upd
     model = Inscripcion
     template_name = 'Inscripciones/Gestionar_Inscripciones.html'
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3', 'estado']
-    success_url = reverse_lazy('Gestionar_Inscripciones')
+    success_url = "/Gestionar_Inscripciones/?edit"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -219,7 +222,7 @@ class Modificar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Upd
 class Eliminar_Inscripcion(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Inscripcion
     template_name = 'Inscripciones/Gestionar_Inscripciones.html'
-    success_url = reverse_lazy('Gestionar_Inscripciones')
+    success_url = "/Gestionar_Inscripciones/?delete"
 
     def test_func(self):
         return self.request.user.is_staff
@@ -230,7 +233,7 @@ class Eliminar_Inscripcion(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
 class IncriUserDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Inscripcion
     template_name = 'Inscripciones/Ver_Inscripciones.html'
-    success_url = reverse_lazy('Ver_Inscripciones')
+    success_url = "/Ver_Inscripciones/?delete"
 
     def test_func(self):
         return self.request.user.is_authenticated

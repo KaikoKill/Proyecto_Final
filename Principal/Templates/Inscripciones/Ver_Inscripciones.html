@@ -67,21 +67,47 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <div class="hint-text">Página <b>{{page_obj.number}}</b> de <b>{{page_obj.paginator.num_pages}}</b></div>
                     <ul class="pagination">
+                        
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a href="{% url 'Ver_Inscripciones'%}?page ={{page_obj.previous_page_number}}">Anterior</a></li>
+                        {% else %}
                         <li class="page-item disabled"><a href="#">Anterior</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
+                        
+   
+                        <li class="page-item active"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item"><a href="{% url 'Ver_Inscripciones'%}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </div>        
     </div>
 
+    <!-- exito edit Modal HTML -->
+    <div id="exitoeditEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Éxito</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>Se ha modificado la inscripción exitosamente</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                    </div>
+            </div>
+        </div>
+    </div>
     <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -180,6 +206,11 @@
            var actionUrl = "{% url 'Borrar_Inscripcion' 0 %}".replace('0', incri_id);
            modal.find('form#deleteIncriForm').attr('action', actionUrl);
        });
+       const params = new URLSearchParams(window.location.search);
+       // Comprobar si existe el parámetro 'created'
+       if (params.has('edit')){
+           $('#exitoeditEmployeeModal').modal('show');
+       }
    });
 </script>
 {% endblock extrajs %}

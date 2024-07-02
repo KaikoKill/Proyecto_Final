@@ -12,6 +12,7 @@ class Ver_Convocatorias(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Convocatoria
     template_name = 'Convocatorias/Ver_Convocatorias.html'  
     context_object_name = 'conv'
+    paginate_by = 5
       
     def get_queryset1(self):
         return Convocatoria.objects.all()
@@ -34,6 +35,7 @@ class Gestionar_Convocatorias(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Convocatoria
     template_name = 'Convocatorias/Gestionar_Convocatorias.html'  
     context_object_name = 'conv'
+    paginate_by = 5
       
     def get_queryset(self):
         return Convocatoria.objects.all()
@@ -54,7 +56,7 @@ class ConvocatoriaCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Convocatoria
     template_name = 'Convocatorias/Gestionar_Convocatorias.html'
     fields = ['nombre_convocatoria','evento','fecha', 'hora', 'ubicacion']
-    success_url = reverse_lazy('Gestionar_Convocatorias')
+    success_url = "/Gestionar_Convocatorias/?created"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -86,7 +88,7 @@ class ConvocatoriaUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView)
     model = Convocatoria
     template_name = 'Convocatorias/Gestionar_Convocatorias.html'
     fields = ['nombre_convocatoria','evento','fecha', 'hora', 'ubicacion']
-    success_url = reverse_lazy('Gestionar_Convocatorias')    
+    success_url = "/Gestionar_Convocatorias/?edit"    
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -116,7 +118,7 @@ class ConvocatoriaUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView)
 class ConvocatoriaDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Convocatoria
     template_name = 'Convocatorias/Gestionar_Convocatorias.html'
-    success_url = reverse_lazy('Gestionar_Convocatorias')
+    success_url = "/Gestionar_Convocatorias/?delete"
 
     def test_func(self):
         return self.request.user.is_staff

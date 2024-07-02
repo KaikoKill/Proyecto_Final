@@ -47,6 +47,7 @@ class Administrar_Permisos(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Usuario
     template_name = 'Usuarios/Administrar_Permisos.html'  
     context_object_name = 'users'
+    paginate_by = 5
       
     def get_queryset(self):
         return Usuario.objects.all()
@@ -67,7 +68,8 @@ class Administrar_Permisos(LoginRequiredMixin ,UserPassesTestMixin,ListView):
 class listUserView(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Usuario
     template_name = 'Usuarios/Gestionar_Usuarios.html'  
-    context_object_name = 'users'  
+    context_object_name = 'users'
+    paginate_by = 5
     
     def get_queryset(self):
         return Usuario.objects.all()
@@ -100,6 +102,7 @@ class UserCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
             if existing_user:
                 # If there's an existing boss, return an error
                 form.add_error('username', 'Ya existe un estudiante con ese nombre .')
+                
                 return self.form_invalid(form)
         else:
             instance.is_staff = True
@@ -125,7 +128,7 @@ class UserUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Usuario
     template_name = 'Usuarios/Gestionar_Usuarios.html'
     form_class = UsuarioUpdateModelForm
-    success_url = reverse_lazy('Gestionar_Usuarios')    
+    success_url = "/Gestionar_Usuarios/?edit"    
     
     
     def form_valid(self, form):
@@ -164,7 +167,7 @@ class UserEditView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 class UserDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Usuario
     template_name = 'Usuarios/Gestionar_Usuarios.html'
-    success_url = reverse_lazy('Gestionar_Usuarios')
+    success_url = "/Gestionar_Usuarios/?delete" 
 
     def test_func(self):
         return self.request.user.is_staff
@@ -175,7 +178,7 @@ class Modificar_Permisos(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Usuario
     template_name = 'Usuarios/Administrar_Permisos.html'
     fields = ['es_estudiante']
-    success_url = reverse_lazy('Administrar_Permisos')    
+    success_url = "/Administrar_Permisos/?edit"    
     
     def form_valid(self, form):
         # Get the instance being updated

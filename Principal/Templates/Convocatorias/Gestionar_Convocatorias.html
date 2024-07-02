@@ -22,7 +22,6 @@
                                     </div>
                                 </form>
                         <div class="col-xs-6 d-flex align-items-center justify-content-end">
-                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                             <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
                             <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>
                         </div>
@@ -83,15 +82,24 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <div class="hint-text">Página <b>{{page_obj.number}}</b> de <b>{{page_obj.paginator.num_pages}}</b></div>
                     <ul class="pagination">
+                        
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a href="{% url 'Gestionar_Convocatorias'%}?page ={{page_obj.previous_page_number}}">Anterior</a></li>
+                        {% else %}
                         <li class="page-item disabled"><a href="#">Anterior</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
+                        
+   
+                        <li class="page-item active"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item"><a href="{% url 'Gestionar_Convocatorias'%}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -185,6 +193,58 @@
             </div>
         </div>
     </div>
+
+<!-- exito Modal HTML -->
+<div id="exitoEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">						
+                    <h4 class="modal-title">Éxito</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">					
+                    <p>Se ha creado la convocatoria exitosamente</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                </div>
+        </div>
+    </div>
+</div>
+    <!-- exito edit Modal HTML -->
+    <div id="exitoeditEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Éxito</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>Se ha modificado la convocatoria exitosamente</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                    </div>
+            </div>
+        </div>
+    </div>
+        <!-- exito delete Modal HTML -->
+        <div id="exitodeleteEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Éxito</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <p>Se ha Borrado la convocatoria exitosamente</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                        </div>
+                </div>
+            </div>
+        </div>
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -242,6 +302,19 @@
            var actionUrl = "{% url 'Eliminar_Convocatoria' 0 %}".replace('0', conv_id);
            modal.find('form#deleteConvForm').attr('action', actionUrl);
        });
+               // Obtener los parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        // Comprobar si existe el parámetro 'created'
+        if (params.has('created')) {
+            // Mostrar la notificación usando modal
+            $('#exitoEmployeeModal').modal('show');
+        }
+        if (params.has('edit')){
+            $('#exitoeditEmployeeModal').modal('show');
+        }
+        if (params.has('delete')){
+            $('#exitodeleteEmployeeModal').modal('show');
+        }
    });
 </script>
 {% endblock extrajs %}

@@ -11,6 +11,7 @@ class Gestionar_Eventos(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Evento
     template_name = 'Eventos/Gestionar_Eventos.html'  
     context_object_name = 'eventos'
+    paginate_by = 5
       
     def get_queryset(self):
         return Evento.objects.all()
@@ -30,7 +31,7 @@ class EventoCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Evento
     template_name = 'Eventos/Gestionar_Eventos.html'
     form_class = EventoModelForm
-    success_url = reverse_lazy('Gestionar_Eventos')
+    success_url = "/Gestionar_Eventos/?created"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -55,7 +56,7 @@ class EventoUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Evento
     template_name = 'Eventos/Gestionar_Eventos.html'
     form_class = EventoUpdateModelForm
-    success_url = reverse_lazy('Gestionar_Eventos')    
+    success_url = "/Gestionar_Eventos/?edit"    
     
     
     def form_valid(self, form):
@@ -73,7 +74,7 @@ class EventoUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 class EventoDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Evento
     template_name = 'Eventos/Gestionar_Eventos.html'
-    success_url = reverse_lazy('Gestionar_Eventos')
+    success_url = "/Gestionar_Eventos/?delete"
 
     def test_func(self):
         return self.request.user.is_staff

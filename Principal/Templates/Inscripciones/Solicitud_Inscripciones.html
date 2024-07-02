@@ -71,15 +71,24 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Página <b>5</b> de <b>25</b> Registros</div>
+                    <div class="hint-text">Página <b>{{page_obj.number}}</b> de <b>{{page_obj.paginator.num_pages}}</b></div>
                     <ul class="pagination">
+                        
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a href="{% url 'Solicitud_Inscripciones'%}?page ={{page_obj.previous_page_number}}">Anterior</a></li>
+                        {% else %}
                         <li class="page-item disabled"><a href="#">Anterior</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
+                        
+   
+                        <li class="page-item active"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item"><a href="{% url 'Solicitud_Inscripciones'%}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -109,6 +118,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Delete Modal HTML -->
     <div id="denegarEmployeeModal" class="modal fade">
         <div class="modal-dialog">

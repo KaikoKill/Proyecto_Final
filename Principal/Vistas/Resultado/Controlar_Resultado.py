@@ -8,16 +8,12 @@ from Principal.Modelos.Inscripcion.Inscripcion import Inscripcion
 from Principal.Modelos.Resultado.Resultado import Resultado
 from Principal.Modelos.Usuario.Usuario import Usuario
 
-def Gestionar_Resultados(request):
-    return render(request, "Resultados/Gestionar_Resultados.html")
-
-def Ver_Resultados(request):
-    return render(request, "Resultados/Ver_Resultados.html")
 
 class Ver_Resultados(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Resultado
     template_name = 'Resultados/Ver_Resultados.html'  
     context_object_name = 'resu'
+    paginate_by = 5
       
     def get_queryset(self):
         return Resultado.objects.all()
@@ -37,7 +33,8 @@ class Gestionar_Resultados(LoginRequiredMixin ,UserPassesTestMixin,ListView):
     model = Resultado
     template_name = 'Resultados/Gestionar_Resultados.html'  
     context_object_name = 'resu'
-      
+    paginate_by = 5
+          
     def get_queryset1(self):
         return Resultado.objects.all()
     
@@ -60,8 +57,9 @@ class Agregar_Resultado(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Resultado
     template_name = 'Resultados/Gestionar_Resultados.html'
     fields = ['inscripcion','evento','puesto', 'puntuacion']
-    success_url = reverse_lazy('Gestionar_Resultados')
-    
+    success_url = "/Gestionar_Resultados/?created"
+
+   
     def form_valid(self, form):
         # Get the instance being updated
         instance = form.instance
@@ -92,7 +90,7 @@ class Modificar_Resultado(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Resultado
     template_name = 'Resultados/Gestionar_Resultados.html'
     fields = ['inscripcion','evento','puesto', 'puntuacion']
-    success_url = reverse_lazy('Gestionar_Resultados')
+    success_url = "/Gestionar_Resultados/?edit"
     
     def form_valid(self, form):
         # Get the instance being updated
@@ -123,7 +121,7 @@ class Modificar_Resultado(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 class Eliminar_Resultado(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Resultado
     template_name = 'Resultados/Gestionar_Resultados.html'
-    success_url = reverse_lazy('Gestionar_Resultados')
+    success_url = "/Gestionar_Resultados/?delete"
 
     def test_func(self):
         return self.request.user.is_staff
