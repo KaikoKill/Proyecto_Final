@@ -23,19 +23,12 @@
                                 </form>
                         <div class="col-xs-6 d-flex align-items-center justify-content-end">
                             <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>
                         </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
                             <th>Nombre</th>
                             <th>Evento</th>
                             <th>Descripción</th>
@@ -49,12 +42,6 @@
                     <tbody>
                         {% for c in conv%}
                         <tr>
-                            <td>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                    <label for="checkbox1"></label>
-                                </span>
-                            </td>
                             <td>{{c.nombre_convocatoria}}</td>
                             <td>{{c.evento.nombre_evento}}</td>
                             <td>{{c.evento.descripcion}}</td>
@@ -252,11 +239,11 @@
                 <form id="deleteConvForm" action= "{% url 'Eliminar_Convocatoria' 0 %}" method="POST">
                     {% csrf_token %}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Borrar Convocatoria/s</h4>
+                        <h4 class="modal-title">Borrar Convocatoria</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">					
-                        <p>¿Esta seguro de querer borrar el/los registro/s?</p>
+                        <p>¿Está seguro que desea eliminar esta convocatoria?</p>
                         <p class="text-warning"><small>Esta acción no se puede revertir.</small></p>
                     </div>
                     <div class="modal-footer">

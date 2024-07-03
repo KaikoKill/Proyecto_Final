@@ -2,13 +2,14 @@ from typing import Any
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.http import request
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from Principal.Modelos.Evento.Evento import Evento
 from Principal.Modelos.Usuario.Usuario import Usuario
-from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from Principal.Vistas.Usuario.forms import UsuarioModelForm, UsuarioUpdateModelForm
 from django.contrib import messages
@@ -97,41 +98,28 @@ class listUserView(LoginRequiredMixin ,UserPassesTestMixin,ListView):
         context['user_custom'] = Usuario.objects.get(id = self.request.user.id)
         return context  
 
+
+
 class UserCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Usuario
     template_name = 'Usuarios/Gestionar_Usuarios.html'
     form_class = UsuarioModelForm
     success_url = "/Gestionar_Usuarios/?created"
     
+
     def form_valid(self, form):
-        # Get the instance being updated
         instance = form.instance
-        # Check if is_jefe is being set to True
         if instance.es_estudiante:
             instance.is_staff = False
-            # Check if there's another user in the same area who is a boss
-            existing_user = User.objects.filter(username = instance.username ).exclude(pk=instance.pk).exists()
-            if existing_user:
-                # If there's an existing boss, return an error
-                form.add_error('username', 'Ya existe un estudiante con ese nombre .')
-                
-                return self.form_invalid(form)
         else:
             instance.is_staff = True
-            # Check if there's another user in the same area who is a boss
-            existing_user = User.objects.filter(username = instance.username ).exclude(pk=instance.pk).exists()
-            if existing_user:
-                # If there's an existing boss, return an error
-                form.add_error('username', 'Ya existe un Jefe de Departamento con ese nombre .')
-                return self.form_invalid(form)
-        # Call the parent class's form_valid method
         instance.save()
-
         return super().form_valid(form)
         
-
+    
     def test_func(self):
         return self.request.user.is_staff
+    
     def handle_no_permission(self):
         return redirect('login')
         

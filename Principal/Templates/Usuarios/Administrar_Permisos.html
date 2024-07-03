@@ -26,13 +26,7 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>Nombre de usuario</th>
+                            <th>Usuario</th>
                             <th>Sexo</th>
                             <th>Permiso</th>
                             <th>Acción</th>
@@ -41,19 +35,13 @@
                     <tbody>
                         {% for u in users %}
                         <tr>
-                            <td>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                    <label for="checkbox1"></label>
-                                </span>
-                            </td>
                             <td>{{u.username}}</td>
                             <td>{{u.sexo}}</td>
                             <td>{% if u.es_estudiante %}Estudiante{% endif %}
                                 {% if not u.es_estudiante %}Jefe de Departamento{% endif %}
                             </td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-id="{{u.id}}" data-es_estudiante="{{u.es_estudiante}}"><i class="material-icons" data-toggle="tooltip" title="Modificar Permisos">&#xE254;</i></a>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-id="{{u.id}}" data-es_estudiante="{{u.es_estudiante}}"><i class="material-icons" data-toggle="tooltip" title="Modificar Permisos">&#xe7fc;</i></a>
                             </td>
                         </tr>
                         {% empty %}

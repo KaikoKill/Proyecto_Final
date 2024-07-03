@@ -27,13 +27,7 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>Nombre del equipo</th>
+                            <th>Equipo</th>
                             <th>Evento</th>
                             <th>Lugar</th>
                             <th>Puntuación</th>
@@ -43,12 +37,6 @@
                     <tbody>
                         {% for r in resu%}
                         <tr>
-                            <td>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                    <label for="checkbox1"></label>
-                                </span>
-                            </td>
                             <td>{{r.inscripcion.nombre_equipo}}</td>
                             <td>{{r.evento.nombre_evento}}</td>
                             <td>{{r.get_ubicacion}}</td>

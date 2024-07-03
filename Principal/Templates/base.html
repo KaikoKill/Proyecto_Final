@@ -47,7 +47,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <img src="{% static 'Principal/img/logo.png' %}" class="sidebar-brand d-flex align-items-center justify-content-center" alt="Logo">
                 </div>
-                <div class="sidebar-brand-text mx-1"><h7>Bienvenidos al Sistema de Gestion de Convocatorias y Eventos</h7></div>
+                <div class="sidebar-brand-text mx-1"><h7>Bienvenidos al Sistema de Gestión de Convocatorias y Eventos</h7></div>
             </a>
 
             <!-- Divider -->
@@ -297,7 +297,7 @@
     <div class="modal fade" id="EditarPerfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{% url 'Editar_Usuario' user_custom.id %}" method="POST">
+            <form id = "addUserForm" action="{% url 'Editar_Usuario' user_custom.id %}" method="POST">
                 {% csrf_token %}
                 <div class="modal-header">						
                     <h4 class="modal-title">Editar Usuario</h4>
@@ -331,11 +331,12 @@
                     </div>
                     <div class="form-group">
                         <label>Contraseña</label>
-                        <input type="password" class="form-control" required name = "password" >
+                        <input type="password" class="form-control" required name = "password" id="password1">
+                        <div id="password1Error" class="alert alert-danger mt-3" style="display:none;">Las contraseñas no coinciden. Por favor, inténtalo de nuevo.</div>
                     </div>       
                     <div class="form-group">
                         <label>Confirmar Contraseña</label>
-                        <input type="password" class="form-control" required>
+                        <input type="password" class="form-control" required id="password2">
                     </div>
                     <div class="form-group">
                         <label>Correo UCI</label>
@@ -385,7 +386,26 @@
     
     <!-- Script del CRUD -->     
     <script src="{% static 'Principal/js/script-crud.js' %}"></script>
-
+    
+    <script>
+        $('#addUserForm').on('submit', function(e) {
+            var password1 = $('#password1').val();
+            var password2 = $('#password2').val();
+        
+            // Verifica que ambos campos no estén vacíos
+            if(password1 === '' || password2 === '') {
+              alert('Ambos campos de contraseña deben ser completados.');
+              e.preventDefault(); // Evita enviar el formulario
+            } else if(password1 !== password2) {
+              // Muestra el mensaje de error
+              $('#password1Error').show();
+              e.preventDefault(); // Evita enviar el formulario
+            } else {
+              // Oculta el mensaje de error si las contraseñas coinciden
+              $('#password1Error').hide();
+            }
+        });
+    </script>
     {% block extrajs %}
     {% endblock extrajs%}
 </body>

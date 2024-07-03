@@ -57,8 +57,8 @@
                             <td>{{i.convocatoria.evento.requisitos}}</td>
                             <td><strong>{{i.estado}}</strong></td>
                             <td>
-                                    <a href="#aceptarEmployeeModal" class="edit" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Aceptar">&#xE254;</i></a>
-                                    <a href="#denegarEmployeeModal" class="delete" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Denegar">&#xE872;</i></a>
+                                    <a href="#aceptarEmployeeModal" class="done" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Aceptar">&#xe876;</i></a>
+                                    <a href="#denegarEmployeeModal" class="delete" data-toggle="modal" data-id="{{i.id}}"><i class="material-icons" data-toggle="tooltip" title="Denegar">&#xe5c9;</i></a>
                             </td>
                         </tr>
                         {% endif %}
@@ -94,8 +94,6 @@
             </div>
         </div>        
     </div>
-    
-
     <!-- Edit Modal HTML -->
     <div id="aceptarEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -126,11 +124,11 @@
                 <form id="denegarIncriForm" action = "{% url 'Denegar_Inscripcion' 0 %}" method="POST">
                     {% csrf_token %}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Denegar Inscripcion</h4>
+                        <h4 class="modal-title">Denegar Inscripción</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">					
-                        <p>¿Esta seguro de denegar esta inscripción?</p>
+                        <p>¿Está seguro de denegar esta inscripción?</p>
                         <input type="hidden" class="form-control" name="estado" value = "Denegada">
                     </div>
                     <div class="modal-footer">
@@ -140,7 +138,8 @@
                 </form>
             </div>
         </div>
-    </div>                                                                                                                                                   
+    </div>  
+</div>                                                                                                                                                   
 {%endblock%}
 <!-- Fin del Contenido de Pagina -->
 {% block extrajs %}

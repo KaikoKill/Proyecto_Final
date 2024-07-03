@@ -1,19 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from Principal.Modelos.Usuario import Usuario
+from Principal.Modelos.Usuario.Usuario import Usuario
+from django.forms import ValidationError
 
 class UsuarioModelForm(UserCreationForm):
 
   class Meta:
-    model = Usuario.Usuario
+    model = Usuario
     fields = ('username', 'first_name', 'last_name', 'password1','password2','es_estudiante', 'sexo', 'email','edad')
-    
     
     
 class UsuarioUpdateModelForm(forms.ModelForm):
 
   class Meta:
-    model = Usuario.Usuario
+    model = Usuario
     fields = ('username','first_name','password','last_name','sexo','email','edad')
     
     def clean(self):
