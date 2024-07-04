@@ -88,15 +88,7 @@ class Enviar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Create
     success_url = "/Ver_Inscripciones/?edit"
     
     def form_valid(self, form):
-        # Get the instance being updated
         instance = form.instance                                   
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
-        if existing_equipo:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
-            return self.form_invalid(form)
-
         # Assign the event to the instance         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
@@ -110,7 +102,8 @@ class Enviar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Create
         return super().form_valid(form)          
 
     def get_queryset(self):
-        return Usuario.objects.all()        
+        return Usuario.objects.all() 
+           
     def test_func(self):
         return self.request.user.is_authenticated
     
@@ -129,15 +122,8 @@ class Editar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Update
     success_url = "/Ver_Inscripciones/?edit"
     
     def form_valid(self, form):
-        # Get the instance being updated
+        
         instance = form.instance                                   
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
-        if existing_equipo:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
-            return self.form_invalid(form)
-
         # Assign the event to the instance         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
@@ -165,14 +151,7 @@ class Agregar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Creat
     def form_valid(self, form):
         # Get the instance being updated
         instance = form.instance                                   
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
-        if existing_equipo:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
-            return self.form_invalid(form)
-
-        # Assign the event to the instance         
+           
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
         if user_id and conv_id:
@@ -203,15 +182,7 @@ class Modificar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Upd
     success_url = "/Gestionar_Inscripciones/?edit"
     
     def form_valid(self, form):
-        # Get the instance being updated
         instance = form.instance                                   
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
-        if existing_equipo:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
-            return self.form_invalid(form)
-
         # Assign the event to the instance         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')

@@ -30,7 +30,7 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Nombre del Equipo</th>
+                            <th>Equipo</th>
                             <th>Evento</th>
                             <th>Integrantes</th>
                             <th>Requisitos</th>
@@ -333,77 +333,6 @@
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
         }
-        // Validación de campos en el formulario de creación
-    $('#addincriForm').on('submit', function(e) {
-        var nombre_equipo = $('input[name="nombre_equipo"]').val();
-        var integrante1 = $('input[name="integrante1"]').val();
-        var integrante2 = $('input[name="integrante2"]').val();
-        var integrante3 = $('input[name="integrante3"]').val();
-
-        // Validación de nombre de equipo
-        if (!/^[a-zA-Z\s]+$/.test(nombre_equipo) || nombre_equipo.length < 1 || nombre_equipo.length > 100) {
-            alert('El nombre del equipo debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 1
-        if (!/^[a-zA-Z\s]+$/.test(integrante1) || integrante1.length < 1 || integrante1.length > 100) {
-            alert('El nombre y apellidos del integrante 1 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 2
-        if (!/^[a-zA-Z\s]+$/.test(integrante2) || integrante2.length < 1 || integrante2.length > 100) {
-            alert('El nombre y apellidos del integrante 2 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 3
-        if (!/^[a-zA-Z\s]+$/.test(integrante3) || integrante3.length < 1 || integrante3.length > 100) {
-            alert('El nombre y apellidos del integrante 3 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-    });
-
-    // Validación de campos en el formulario de edición
-    $('#editIncriForm').on('submit', function(e) {
-        var nombre_equipo = $('input[name="nombre_equipo"]').val();
-        var integrante1 = $('input[name="integrante1"]').val();
-        var integrante2 = $('input[name="integrante2"]').val();
-        var integrante3 = $('input[name="integrante3"]').val();
-
-        // Validación de nombre de equipo
-        if (!/^[a-zA-Z\s]+$/.test(nombre_equipo) || nombre_equipo.length < 1 || nombre_equipo.length > 100) {
-            alert('El nombre del equipo debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 1
-        if (!/^[a-zA-Z\s]+$/.test(integrante1) || integrante1.length < 1 || integrante1.length > 100) {
-            alert('El nombre y apellidos del integrante 1 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 2
-        if (!/^[a-zA-Z\s]+$/.test(integrante2) || integrante2.length < 1 || integrante2.length > 100) {
-            alert('El nombre y apellidos del integrante 2 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-
-        // Validación de integrante 3
-        if (!/^[a-zA-Z\s]+$/.test(integrante3) || integrante3.length < 1 || integrante3.length > 100) {
-            alert('El nombre y apellidos del integrante 3 debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
-            e.preventDefault();
-            return;
-        }
-    });
    });
 </script>
 {% endblock extrajs %}

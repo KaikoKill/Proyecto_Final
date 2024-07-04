@@ -69,16 +69,7 @@ class ConvocatoriaCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     success_url = "/Gestionar_Convocatorias/?created"
     
     def form_valid(self, form):
-        # Get the instance being updated
         instance = form.instance                                     
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_conv = Convocatoria.objects.filter(nombre_convocatoria=instance.nombre_convocatoria).exclude(pk=instance.pk).exists()
-        
-        if existing_conv:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_convocatoria', 'Ya existe una convocatoria con ese nombre.')
-            return self.form_invalid(form)
-
         # Assign the event to the instance
         evento_id = form.cleaned_data.get('evento_id')
         if evento_id:
@@ -101,15 +92,8 @@ class ConvocatoriaUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView)
     success_url = "/Gestionar_Convocatorias/?edit"    
     
     def form_valid(self, form):
-        # Get the instance being updated
+        
         instance = form.instance                                     
-        # Check if a Convocatoria with the same name already exists (excluding current instance)
-        existing_conv = Convocatoria.objects.filter(nombre_convocatoria=instance.nombre_convocatoria).exclude(pk=instance.pk).exists()
-        if existing_conv:
-            # If there's an existing convocatoria with the same name, return an error
-            form.add_error('nombre_convocatoria', 'Ya existe una convocatoria con ese nombre.')
-            return self.form_invalid(form)
-
         # Assign the event to the instance
         evento_id = form.cleaned_data.get('evento_id')
         if evento_id:
@@ -132,5 +116,6 @@ class ConvocatoriaDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView)
 
     def test_func(self):
         return self.request.user.is_staff
+    
     def handle_no_permission(self):
         return redirect('login')
