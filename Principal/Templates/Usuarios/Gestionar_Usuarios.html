@@ -100,19 +100,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Nombre de usuario</label>
-                            <input type="text" class="form-control" required name = "username">
+                            <input type="text" class="form-control" required  minlength="4" maxlength="50" name = "username">
                         </div>
                         <div class="form-group">
                             <label>Nombre(s)</label>
-                            <input type="text" class="form-control" required name="first_name">
+                            <input type="text" class="form-control" required minlength="4" maxlength="50" name="first_name">
                         </div>
                         <div class="form-group">
                             <label>Apellidos</label>
-                            <input type="text" class="form-control" required name = "last_name">
+                            <input type="text" class="form-control" required minlength="4" maxlength="50" name = "last_name">
                         </div>
                         <div class="form-group">
                             <label>Edad</label>
-                            <input type="text" class="form-control" required name = "edad">
+                            <input type="number" class="form-control" required min="18" max="100" name = "edad">
                         </div>
                         <div class="form-group">
                             <label>Contraseña</label>
@@ -121,7 +121,7 @@
                         </div>       
                         <div class="form-group">
                             <label>Confirmar Contraseña</label>
-                            <input type="password" class="form-control" required name = "password2" id="password2">
+                            <input type="password" class="form-control" required name = "password2" id="password2" >
                         </div>
                         <div class="form-group">
                             <label>Correo UCI</label>
@@ -171,23 +171,23 @@
                         </div>
                         <div class="form-group">
                             <label>Nombre de usuario</label>
-                            <input type="text" class="form-control" required name = "username">
+                            <input type="text" class="form-control" required  minlength="4" maxlength="50" name = "username">
                         </div>
                         <div class="form-group">
                             <label>Nombre(s)</label>
-                            <input type="text" class="form-control" required name="first_name">
+                            <input type="text" class="form-control" required  minlength="4" maxlength="50" name="first_name">
                         </div>
                         <div class="form-group">
                             <label>Apellidos</label>
-                            <input type="text" class="form-control" required name = "last_name">
+                            <input type="text" class="form-control" required  minlength="4" maxlength="50" name = "last_name">
                         </div>
                         <div class="form-group">
                             <label>Edad</label>
-                            <input type="text" class="form-control" required name = "edad">
+                            <input type="text" class="form-control" required min="18" max="100" name = "edad">
                         </div>
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" required name= "password" id="password3">
+                            <input type="password" class="form-control" required name= "password" id="password3" >
                             <div id="password2Error" class="alert alert-danger mt-3" style="display:none;">Las contraseñas no coinciden. Por favor, inténtalo de nuevo.</div>
                         </div>       
                         <div class="form-group">
@@ -307,11 +307,11 @@
             var email = button.data('email');
             var edad = button.data('edad');
             var sexo = button.data('sexo');
-
+    
             var modal = $(this);
             var actionUrl = "{% url 'Modificar_Usuario' 0 %}".replace('0', userId);
             modal.find('form#editUserForm').attr('action', actionUrl);
-
+    
             // Rellenar los campos del formulario con los valores extraídos
             modal.find('input[name="username"]').val(username);
             modal.find('input[name="first_name"]').val(firstName);
@@ -320,16 +320,17 @@
             modal.find('input[name="edad"]').val(edad);
             modal.find('select[name="sexo"]').val(sexo);
         });
-                // Abrir modal de eliminación y ajustar acción del formulario
+    
+        // Abrir modal de eliminación y ajustar acción del formulario
         $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Botón que activó el modal
             var userId = button.data('id'); // Extraer info de los atributos data-*
-
+    
             var modal = $(this);
             var actionUrl = "{% url 'Eliminar_Usuario' 0 %}".replace('0', userId);
             modal.find('form#deleteUserForm').attr('action', actionUrl);
         });
-
+    
         // Obtener los parámetros de la URL
         const params = new URLSearchParams(window.location.search);
         // Comprobar si existe el parámetro 'created'
@@ -343,38 +344,90 @@
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
         }
+    
+        // Validación de campos en el formulario de creación
         $('#addUserForm').on('submit', function(e) {
-            var password1 = $('#password1').val();
-            var password2 = $('#password2').val();
-        
-            // Verifica que ambos campos no estén vacíos
-            if(password1 === '' || password2 === '') {
-              alert('Ambos campos de contraseña deben ser completados.');
-              e.preventDefault(); // Evita enviar el formulario
-            } else if(password1 !== password2) {
-              // Muestra el mensaje de error
-              $('#password1Error').show();
-              e.preventDefault(); // Evita enviar el formulario
-            } else {
-              // Oculta el mensaje de error si las contraseñas coinciden
-              $('#password1Error').hide();
+            var username = $('#addUserForm input[name="username"]').val();
+            var firstName = $('#addUserForm input[name="first_name"]').val();
+            var lastName = $('#addUserForm input[name="last_name"]').val();
+            var password1 = $('#addUserForm input[name="password1"]').val();
+            var password2 = $('#addUserForm input[name="password2"]').val();
+            var email = $('#addUserForm input[name="email"]').val();
+    
+            // Validación de nombre de usuario
+            if (!/^[a-zA-Z0-9]+$/.test(username) || username.length < 4 || username.length > 50) {
+                alert('El nombre de usuario debe tener entre 4 y 50 caracteres y solo puede contener letras y números.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de nombres
+            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 4 || firstName.length > 50) {
+                alert('El nombre debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 4 || lastName.length > 50) {
+                alert('El apellido debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de contraseña
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password1) || password1 !== password2) {
+                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial. Además, ambas contraseñas deben coincidir.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de correo electrónico
+            if (!/^[a-z]{4,10}@uci\.cu$/.test(email)) {
+                alert('El correo electrónico debe tener un formato válido (ejemplo: abcd@uci.cu).');
+                e.preventDefault();
+                return;
             }
         });
+    
+        // Validación de campos en el formulario de edición
         $('#editUserForm').on('submit', function(e) {
-            var password1 = $('#password3').val();
-            var password2 = $('#password4').val();
-        
-            // Verifica que ambos campos no estén vacíos
-            if(password1 === '' || password2 === '') {
-              alert('Ambos campos de contraseña deben ser completados.');
-              e.preventDefault(); // Evita enviar el formulario
-            } else if(password1 !== password2) {
-              // Muestra el mensaje de error
-              $('#password2Error').show();
-              e.preventDefault(); // Evita enviar el formulario
-            } else {
-              // Oculta el mensaje de error si las contraseñas coinciden
-              $('#password2Error').hide();
+            var username = $('#editUserForm input[name="username"]').val();
+            var firstName = $('#editUserForm input[name="first_name"]').val();
+            var lastName = $('#editUserForm input[name="last_name"]').val();
+            var password1 = $('#editUserForm input[name="password"]').val();
+            var password2 = $('#editUserForm input[name="password"]').val();
+            var email = $('#editUserForm input[name="email"]').val();
+    
+            // Validación de nombre de usuario
+            if (!/^[a-zA-Z0-9]+$/.test(username) || username.length < 4 || username.length > 50) {
+                alert('El nombre de usuario debe tener entre 4 y 50 caracteres y solo puede contener letras y números.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de nombres
+            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 4 || firstName.length > 50) {
+                alert('El nombre debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 4 || lastName.length > 50) {
+                alert('El apellido debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de contraseña
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password1) || password1 !== password2) {
+                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial. Además, ambas contraseñas deben coincidir.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de correo electrónico
+            if (!/^[a-z]{4,10}@uci\.cu$/.test(email)) {
+                alert('El correo electrónico debe tener un formato válido (ejemplo: abcd@uci.cu).');
+                e.preventDefault();
+                return;
             }
         });
     });

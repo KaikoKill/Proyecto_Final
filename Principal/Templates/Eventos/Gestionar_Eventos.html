@@ -85,7 +85,7 @@
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action= "{% url 'Crear_Evento'%}" method="POST">
+                <form id="addeventoForm" action= "{% url 'Crear_Evento'%}" method="POST">
                     {% csrf_token %}
                     <div class="modal-header">						
                         <h4 class="modal-title">Añadir Evento</h4>
@@ -266,6 +266,61 @@
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
         }
+
+        $('addeventoForm').on('submit', function(e) {
+            var nombre_evento = $('input[name="nombre_evento"]').val();
+            var descripcion = $('textarea[name="descripcion"]').val();
+            var requisitos = $('textarea[name="requisitos"]').val();
+    
+            // Validación de nombre de evento
+            if (!/^[a-zA-Z\s]+$/.test(nombre_evento) || nombre_evento.length < 1 || nombre_evento.length > 100) {
+                alert('El nombre del evento debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de descripción
+            if (descripcion.length < 1 || descripcion.length > 500) {
+                alert('La descripción del evento debe tener entre 1 y 500 caracteres.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de requisitos
+            if (requisitos.length < 1 || requisitos.length > 500) {
+                alert('Los requisitos del evento deben tener entre 1 y 500 caracteres.');
+                e.preventDefault();
+                return;
+            }
+        });
+    
+        // Validación de campos en el formulario de edición
+        $('#editEventoForm').on('submit', function(e) {
+            var nombre_evento = $('input[name="nombre_evento"]').val();
+            var descripcion = $('textarea[name="descripcion"]').val();
+            var requisitos = $('textarea[name="requisitos"]').val();
+    
+            // Validación de nombre de evento
+            if (!/^[a-zA-Z\s]+$/.test(nombre_evento) || nombre_evento.length < 1 || nombre_evento.length > 100) {
+                alert('El nombre del evento debe tener entre 1 y 100 caracteres y solo puede contener letras y espacios.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de descripción
+            if (descripcion.length < 1 || descripcion.length > 500) {
+                alert('La descripción del evento debe tener entre 1 y 500 caracteres.');
+                e.preventDefault();
+                return;
+            }
+    
+            // Validación de requisitos
+            if (requisitos.length < 1 || requisitos.length > 500) {
+                alert('Los requisitos del evento deben tener entre 1 y 500 caracteres.');
+                e.preventDefault();
+                return;
+            }
+        });
    });
 </script>
 {% endblock extrajs %}

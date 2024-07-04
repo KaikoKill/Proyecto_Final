@@ -391,7 +391,13 @@
         $('#addUserForm').on('submit', function(e) {
             var password1 = $('#password1').val();
             var password2 = $('#password2').val();
-        
+            var username = $('#addUserForm input[name="username"]').val();
+            var firstName = $('#addUserForm input[name="first_name"]').val();
+            var lastName = $('#addUserForm input[name="last_name"]').val();
+            var password1 = $('#addUserForm input[name="password1"]').val();
+            var password2 = $('#addUserForm input[name="password2"]').val();
+            var email = $('#addUserForm input[name="email"]').val();
+
             // Verifica que ambos campos no estén vacíos
             if(password1 === '' || password2 === '') {
               alert('Ambos campos de contraseña deben ser completados.');
@@ -404,7 +410,39 @@
               // Oculta el mensaje de error si las contraseñas coinciden
               $('#password1Error').hide();
             }
-        });
+                // Validación de nombre de usuario
+            if (!/^[a-zA-Z0-9]+$/.test(username) || username.length < 4 || username.length > 50) {
+                alert('El nombre de usuario debe tener entre 4 y 50 caracteres y solo puede contener letras y números.');
+                e.preventDefault();
+                return;
+            }
+        
+                // Validación de nombres
+            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 4 || firstName.length > 50) {
+                alert('El nombre debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 4 || lastName.length > 50) {
+                alert('El apellido debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+                e.preventDefault();
+                return;
+            }
+        
+                // Validación de contraseña
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password1) || password1 !== password2) {
+                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial. Además, ambas contraseñas deben coincidir.');
+                e.preventDefault();
+                return;
+                }
+        
+                // Validación de correo electrónico
+            if (!/^[a-z]{4,10}@uci\.cu$/.test(email)) {
+                alert('El correo electrónico debe tener un formato válido (ejemplo: abcd@uci.cu).');
+                e.preventDefault();
+                return;
+                }
+            });
     </script>
     {% block extrajs %}
     {% endblock extrajs%}
