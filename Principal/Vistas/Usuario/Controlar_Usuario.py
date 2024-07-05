@@ -105,8 +105,10 @@ class UserCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     template_name = 'Usuarios/Gestionar_Usuarios.html'
     form_class = UsuarioModelForm
     success_url = "/Gestionar_Usuarios/?created"
-    
 
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Usuarios/?error")
+    
     def form_valid(self, form):
         instance = form.instance
         if instance.es_estudiante:

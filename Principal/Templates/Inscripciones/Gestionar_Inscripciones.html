@@ -23,7 +23,6 @@
                                 </form>
                         <div class="col-xs-6 d-flex align-items-center justify-content-end">
                             <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>
                         </div>
                     </div>
                 </div>
@@ -108,7 +107,7 @@
                             <input type="text" class="form-control" required name="nombre_equipo" >
                         </div>
                         <div class="form-group">
-                            <label for = "user_id ">Convocatoria</label>
+                            <label for = "user_id ">Usuario</label>
                             <select class="form-control" required id="user_id" name="usuario">
                                 {% for u in users %}
                                 {% if not u.is_staff %}
@@ -153,7 +152,7 @@
                 <form id = "editIncriForm" action="{% url 'Modificar_Inscripcion' 0 %}" method= "POST">
                     {% csrf_token %}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Añadir Inscripción</h4>
+                        <h4 class="modal-title">Editar Inscripción</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">					

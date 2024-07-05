@@ -266,6 +266,23 @@
                     </div>
                 </div>
             </div>
+            <!-- error usuario Modal HTML -->
+            <div id="errorEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                            <div class="modal-header">						
+                                <h4 class="modal-title">Error</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">					
+                                <p>El usuario creado ya existe, por favor intentelo de nuevo</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-danger" data-dismiss="modal" value ="Aceptar">
+                            </div>
+                    </div>
+                </div>
+            </div>
         
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
@@ -344,6 +361,9 @@
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
         }
+        if (params.has('error')){
+            $('#errorEmployeeModal').modal('show');
+        }
     
         // Validación de campos en el formulario de creación
         $('#addUserForm').on('submit', function(e) {
@@ -355,19 +375,19 @@
             var email = $('#addUserForm input[name="email"]').val();
     
             // Validación de nombre de usuario
-            if (!/^[a-zA-Z0-9]+$/.test(username) || username.length < 4 || username.length > 50) {
-                alert('El nombre de usuario debe tener entre 4 y 50 caracteres y solo puede contener letras y números.');
+            if (!/^[a-zA-Z0-9]+$/.test(username){
+                alert('El nombre de usuario solo puede contener letras y números.');
                 e.preventDefault();
                 return;
             }
     
             // Validación de nombres
-            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 4 || firstName.length > 50) {
-                alert('El nombre debe tener entre 4 y 50 caracteres y solo puede contener letras.');
+            if (!/^[a-zA-Z]+$/.test(firstName){
+                alert('El nombre solo puede contener letras.');
                 e.preventDefault();
                 return;
             }
-            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 4 || lastName.length > 50) {
+            if (!/^[a-zA-Z]+$/.test(lastName)) {
                 alert('El apellido debe tener entre 4 y 50 caracteres y solo puede contener letras.');
                 e.preventDefault();
                 return;
@@ -375,50 +395,7 @@
     
             // Validación de contraseña
             if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password1) || password1 !== password2) {
-                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial. Además, ambas contraseñas deben coincidir.');
-                e.preventDefault();
-                return;
-            }
-    
-            // Validación de correo electrónico
-            if (!/^[a-z]{4,10}@uci\.cu$/.test(email)) {
-                alert('El correo electrónico debe tener un formato válido (ejemplo: abcd@uci.cu).');
-                e.preventDefault();
-                return;
-            }
-        });
-    
-        // Validación de campos en el formulario de edición
-        $('#editUserForm').on('submit', function(e) {
-            var username = $('#editUserForm input[name="username"]').val();
-            var firstName = $('#editUserForm input[name="first_name"]').val();
-            var lastName = $('#editUserForm input[name="last_name"]').val();
-            var password1 = $('#editUserForm input[name="password"]').val();
-            var password2 = $('#editUserForm input[name="password"]').val();
-            var email = $('#editUserForm input[name="email"]').val();
-    
-            // Validación de nombre de usuario
-            if (!/^[a-zA-Z0-9]+$/.test(username) || username.length < 4 || username.length > 50) {
-                alert('El nombre de usuario debe tener entre 4 y 50 caracteres y solo puede contener letras y números.');
-                e.preventDefault();
-                return;
-            }
-    
-            // Validación de nombres
-            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 4 || firstName.length > 50) {
-                alert('El nombre debe tener entre 4 y 50 caracteres y solo puede contener letras.');
-                e.preventDefault();
-                return;
-            }
-            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 4 || lastName.length > 50) {
-                alert('El apellido debe tener entre 4 y 50 caracteres y solo puede contener letras.');
-                e.preventDefault();
-                return;
-            }
-    
-            // Validación de contraseña
-            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(password1) || password1 !== password2) {
-                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial. Además, ambas contraseñas deben coincidir.');
+                alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un carácter especial');
                 e.preventDefault();
                 return;
             }
