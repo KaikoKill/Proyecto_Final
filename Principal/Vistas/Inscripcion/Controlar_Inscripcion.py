@@ -87,12 +87,18 @@ class Enviar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Create
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
     success_url = "/Ver_Inscripciones/?edit"
     
+    def form_invalid(self, form):
+        return redirect("/Ver_Inscripciones/?error")
+    
     def form_valid(self, form):
         instance = form.instance                                   
-        # Assign the event to the instance         
+        # Assign the event to the instance
+        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
+        if existing_equipo:
+            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
+            return self.form_invalid(form)         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
-        print(instance)
         if user_id and conv_id:
             usuario = Usuario.objects.get(pk=user_id)
             convocatoria = Convocatoria.objects.get(pk=conv_id)
@@ -121,10 +127,17 @@ class Editar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Update
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
     success_url = "/Ver_Inscripciones/?edit"
     
+    def form_invalid(self, form):
+        return redirect("/Ver_Inscripciones/?error")
+    
     def form_valid(self, form):
         
         instance = form.instance                                   
-        # Assign the event to the instance         
+        # Assign the event to the instance
+        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
+        if existing_equipo:
+            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
+            return self.form_invalid(form)         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
         print(instance)
@@ -148,10 +161,16 @@ class Agregar_InscripcionCreateView(LoginRequiredMixin,UserPassesTestMixin,Creat
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3']
     success_url = "/Gestionar_Inscripciones/?created"
     
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Inscripciones/?error")
+    
     def form_valid(self, form):
         # Get the instance being updated
         instance = form.instance                                   
-           
+        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
+        if existing_equipo:
+            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
+            return self.form_invalid(form)      
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
         if user_id and conv_id:
@@ -181,9 +200,16 @@ class Modificar_InscripcionUpdateView(LoginRequiredMixin,UserPassesTestMixin,Upd
     fields = ['convocatoria','nombre_equipo', 'usuario','integrante1', 'integrante2','integrante3', 'estado']
     success_url = "/Gestionar_Inscripciones/?edit"
     
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Inscripciones/?error")
+    
     def form_valid(self, form):
         instance = form.instance                                   
-        # Assign the event to the instance         
+        # Assign the event to the instance
+        existing_equipo = Inscripcion.objects.filter(nombre_equipo=instance.nombre_equipo).exclude(pk=instance.pk).exists()    
+        if existing_equipo:
+            form.add_error('nombre_equipo', 'Ya existe un equipo con ese nombre.')
+            return self.form_invalid(form)         
         user_id = form.cleaned_data.get('user_id')
         conv_id = form.cleaned_data.get('conv_id')
         if user_id and conv_id:

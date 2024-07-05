@@ -70,10 +70,13 @@ class Agregar_Resultado(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     success_url = "/Gestionar_Resultados/?created"
 
    
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Resultados/?error")
+    
     def form_valid(self, form):
         # Get the instance being updated
         instance = form.instance
-        # Assign the event to the instance         
+        # Assign the event to the instance     
         incri_id = form.cleaned_data.get('incri_id')
         evento_id = form.cleaned_data.get('evento_id')
         print(instance)

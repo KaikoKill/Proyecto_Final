@@ -88,6 +88,7 @@
             </div>
         </div>        
     </div>
+
     <!-- Edit Modal HTML -->
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -100,19 +101,16 @@
                     </div>
                     <div class="modal-body">					       
                         <div class="form-group">
-                            <label for="evento_id">Nombre Equipo</label>
+                            <label>Nombre Equipo</label>
                             <select class="form-control" name="inscripcion" id="incri_id">
                                 {% for i in incri %}
-                                    <option value="{{ i.id }}">{{i.nombre_equipo}}</option>
+                                {% if i.estado == "Aceptada"%}
+                                    <option data-id_evento="{{i.convocatoria.evento.id}}" value="{{ i.id }}">{{i.nombre_equipo}} en {{i.convocatoria.evento.nombre_evento}}</option>
+                                {% endif %}
+                                {% endfor %}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="evento_id">Evento</label>
-                            <select class="form-control" name="evento" id="evento_id">
-                                    <option value="{{ i.convocatoria.evento.id }}">{{i.convocatoria.evento.nombre_evento}}</option>
-                            </select>
-                        </div>
-                        {% endfor %}
+                            <input type="hidden" class="form-control" name="evento" id="evento_id_input">
                         <div class="form-group">
                             <label>Puntuación</label>
                             <input type="number" min="0" max="100" class="form-control" name="puntuacion" required>
@@ -233,7 +231,7 @@
                             </div>
                     </div>
                 </div>
-            </div>
+            </div> 
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -304,6 +302,14 @@
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
         }
+        $('#incri_id').on('change', function() {
+            var selectedOption = $(this).find('option:selected');
+            var eventoId = selectedOption.data('id_evento');
+            $('#evento_id_input').val(eventoId);
+        });
+    
+        // Trigger the change event on page load to set initial value if needed
+        $('#incri_id').trigger('change');
    });
 </script>
 {% endblock extrajs %}

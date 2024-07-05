@@ -38,7 +38,23 @@ class EventoCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     template_name = 'Eventos/Gestionar_Eventos.html'
     form_class = EventoModelForm
     success_url = "/Gestionar_Eventos/?created"
-
+    
+    def form_valid(self, form):
+        # Get the instance being updated
+        instance = form.instance
+        # Check if is being set to True
+        existing_event = Evento.objects.filter(nombre_evento = instance.nombre_evento ).exclude(pk=instance.pk).exists()
+        if existing_event:
+                # If there's an existing event, return an error
+                form.add_error('nombre_evento', 'Ya existe un evento con ese nombre .')
+                return self.form_invalid(form)
+        # Call the parent class's form_valid method
+        instance.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Eventos/?error")
+    
     def test_func(self):
         return self.request.user.is_staff
     def handle_no_permission(self):

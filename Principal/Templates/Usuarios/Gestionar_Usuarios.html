@@ -275,7 +275,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">					
-                                <p>El usuario creado ya existe, por favor intentelo de nuevo</p>
+                                <p>El usuario seleccionado ya existe, por favor intentelo de nuevo</p>
                             </div>
                             <div class="modal-footer">
                                 <input type="button" class="btn btn-danger" data-dismiss="modal" value ="Aceptar">
@@ -375,14 +375,14 @@
             var email = $('#addUserForm input[name="email"]').val();
     
             // Validación de nombre de usuario
-            if (!/^[a-zA-Z0-9]+$/.test(username){
+            if (!/^[a-zA-Z0-9]+$/.test(username)){
                 alert('El nombre de usuario solo puede contener letras y números.');
                 e.preventDefault();
                 return;
             }
     
             // Validación de nombres
-            if (!/^[a-zA-Z]+$/.test(firstName){
+            if (!/^[a-zA-Z]+$/.test(firstName)){
                 alert('El nombre solo puede contener letras.');
                 e.preventDefault();
                 return;
