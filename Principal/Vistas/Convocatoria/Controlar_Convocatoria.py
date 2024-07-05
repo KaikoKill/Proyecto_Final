@@ -68,15 +68,22 @@ class ConvocatoriaCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     fields = ['nombre_convocatoria','evento','fecha', 'hora', 'ubicacion']
     success_url = "/Gestionar_Convocatorias/?created"
     
+    
     def form_valid(self, form):
         instance = form.instance                                     
         # Assign the event to the instance
+        if Convocatoria.objects.filter(evento=form.cleaned_data['evento']).exists():
+            return self.form_invalid(form)
+        
         evento_id = form.cleaned_data.get('evento_id')
         if evento_id:
             evento = Evento.objects.get(pk=evento_id)
             instance.evento = evento
             instance.save()              
         return super().form_valid(form)
+        
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Convocatorias/?error")
 
     def test_func(self):
         return self.request.user.is_staff
@@ -95,12 +102,17 @@ class ConvocatoriaUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView)
         
         instance = form.instance                                     
         # Assign the event to the instance
+        if Convocatoria.objects.filter(evento=form.cleaned_data['evento']).exists():
+            return self.form_invalid(form)
         evento_id = form.cleaned_data.get('evento_id')
         if evento_id:
             evento = Evento.objects.get(pk=evento_id)
             instance.evento = evento
             instance.save()              
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Convocatorias/?error")
     
     def test_func(self):
         return self.request.user.is_staff 

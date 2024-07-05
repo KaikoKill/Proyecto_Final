@@ -69,14 +69,13 @@ class Agregar_Resultado(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     fields = ['inscripcion','evento','puesto', 'puntuacion']
     success_url = "/Gestionar_Resultados/?created"
 
-   
-    def form_invalid(self, form):
-        return redirect("/Gestionar_Resultados/?error")
     
     def form_valid(self, form):
         # Get the instance being updated
         instance = form.instance
         # Assign the event to the instance     
+        if Resultado.objects.filter(inscripcion__nombre_equipo=instance.inscripcion.nombre_equipo).exists():
+            return self.form_invalid(form)
         incri_id = form.cleaned_data.get('incri_id')
         evento_id = form.cleaned_data.get('evento_id')
         print(instance)
@@ -86,7 +85,10 @@ class Agregar_Resultado(LoginRequiredMixin,UserPassesTestMixin,CreateView):
             instance.inscripcion = inscripcion
             instance.evento = evento   
             instance.save()    
-        return super().form_valid(form)          
+        return super().form_valid(form)      
+    
+    def form_invalid(self, form):
+        return redirect("/Gestionar_Resultados/?error")    
      
     def test_func(self):
         return self.request.user.is_staff

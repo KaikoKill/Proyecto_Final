@@ -232,6 +232,23 @@
                 </div>
             </div>
         </div>
+            <!-- error evento Modal HTML -->
+            <div id="errorEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                            <div class="modal-header">						
+                                <h4 class="modal-title">Error</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">					
+                                <p>Ya existe una convocatoria con ese evento, por favor intentelo de nuevo</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-danger" data-dismiss="modal" value ="Aceptar">
+                            </div>
+                    </div>
+                </div>
+            </div>
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -301,6 +318,9 @@
         }
         if (params.has('delete')){
             $('#exitodeleteEmployeeModal').modal('show');
+        }
+        if (params.has('error')){
+            $('#errorEmployeeModal').modal('show');
         }
 
     });
