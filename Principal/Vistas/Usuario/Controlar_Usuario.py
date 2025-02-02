@@ -23,7 +23,6 @@ class UserLoginView(LoginView):
     template_name = 'Usuarios/login.html'
     
     def get_success_url(self):
-        
         user = self.request.user    
         if user.is_authenticated and (user.is_superuser or user.is_staff):
             if  User.objects.get(id = user.id).is_staff:
@@ -80,11 +79,13 @@ class listUserView(LoginRequiredMixin ,UserPassesTestMixin,ListView):
      
     
     def get_queryset(self) -> QuerySet[Any]:
-        
-        q = self.request.GET.get('q')
+
+        queryset = super().get_queryset()     # Obtener el queryset base
+        q = self.request.GET.get('q')        # Filtrar por búsqueda si existe
         if q:
-            return Usuario.objects.filter(username__icontains=q)
-        return super().get_queryset()
+            queryset = queryset.filter(username__icontains=q)
+        queryset = queryset.exclude(id=self.request.user.id)        # Excluir al usuario autenticado
+        return queryset
     
     
     def test_func(self):

@@ -3,7 +3,6 @@
 <!-- Inicio del Contenido de Pagina -->
 {% block content %}
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Gestionar Resultados</h1>
     <!-- DataTales Example -->
@@ -14,14 +13,16 @@
                     <div class="row justify-content-between">
                         <div class="col-xs-6">
                             <h2>Listado <b>Resultados</b></h2>
-                        </div>   
-                                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar Resultados... " name ="q" value="{{request.GET.q}}"
-                                        aria-label="Search" aria-describedby="basic-addon2">
-                                    </div>
-                                </form>
+                        </div>
+                        <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar resultados..." name ="q" value="{{request.GET.q}}"
+                                aria-label="Search" aria-describedby="basic-addon2">
+                        </div>
+                        </form>
                         <div class="col-xs-6 d-flex align-items-center justify-content-end">
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generar Certificado</a>
                             <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
                         </div>
                     </div>
@@ -54,13 +55,12 @@
                                 <i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" data-id ="{{r.id}}"><i class="material-icons" data-toggle="tooltip" title="Borrar">&#xE872;</i></a>
                             </td>
-                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="2">No hay resultados disponibles.</td>
+                            <td colspan="2">No hay Resultados</td>
                         </tr>
-                        {% endfor %} 
+                        {% endfor %}
                     </tbody>
                 </table>
                 <div class="clearfix">
@@ -68,7 +68,7 @@
                     <ul class="pagination">
                         
                         {% if page_obj.has_previous %}
-                        <li class="page-item"><a href="{% url 'Gestionar_Convocatorias'%}?page ={{page_obj.previous_page_number}}">Anterior</a></li>
+                        <li class="page-item"><a href="{% url 'Gestionar_Resultados'%}?page ={{page_obj.previous_page_number}}">Anterior</a></li>
                         {% else %}
                         <li class="page-item disabled"><a href="#">Anterior</a></li>
                         {% endif %}
@@ -78,7 +78,7 @@
 
 
                         {% if page_obj.has_next %}
-                        <li class="page-item"><a href="{% url 'Gestionar_Convocatorias'%}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                        <li class="page-item"><a href="{% url 'Gestionar_Resultados'%}?page={{page_obj.next_page_number}}">Siguiente</a></li>
                         {% else %}
                         <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
                         {% endif %}
@@ -87,6 +87,7 @@
             </div>
         </div>        
     </div>
+
     <!-- Edit Modal HTML -->
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -141,15 +142,21 @@
                         <h4 class="modal-title">Modificar Resultado</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <div class="modal-body">					   
+                    <div class="modal-body">					       
                         <div class="form-group">
                             <label for="evento_id">Nombre Equipo</label>
                             <select class="form-control" name="inscripcion" id="incri_id">
                                 {% for i in incri %}
-                                <option value="{{ i.id }}">{{i.nombre_equipo}}</option>
-                                {% endfor %}
+                                    <option value="{{ i.id }}">{{i.nombre_equipo}}</option>
                             </select>
-                        </div> 
+                        </div>
+                        <div class="form-group">
+                            <label for="evento_id">Evento</label>
+                            <select class="form-control" name="evento" id="evento_id">
+                                    <option value="{{ i.convocatoria.evento.id }}">{{i.convocatoria.evento.nombre_evento}}</option>
+                            </select>
+                        </div>
+                        {% endfor %}
                         <div class="form-group">
                             <label>Puntuación</label>
                             <input type="number" min="0" max="100" class="form-control" name="puntuacion" required>
@@ -162,34 +169,34 @@
                                 <option value ="3ºLugar">3ºLugar</option>     
                                 <option value ="Participado">Participado</option>                            
                             </select>
-                        </div>							
+                        </div>			
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                        <input type="submit" class="btn btn-info" value="Aceptar">
+                        <input type="submit" class="btn btn-success" value="Aceptar">
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-<!-- exito Modal HTML -->
-<div id="exitoEmployeeModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-                <div class="modal-header">						
-                    <h4 class="modal-title">Éxito</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                    <p>Se ha creado el resultado exitosamente</p>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
-                </div>
+    <!-- exito Modal HTML -->
+    <div id="exitoEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Éxito</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>Se ha creado el resultado exitosamente</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                    </div>
+            </div>
         </div>
     </div>
-</div>
     <!-- exito edit Modal HTML -->
     <div id="exitoeditEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -206,41 +213,41 @@
                     </div>
             </div>
         </div>
-    </div>
-        <!-- exito delete Modal HTML -->
-        <div id="exitodeleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Éxito</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <p>Se ha Borrado el resultado exitosamente</p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
-                        </div>
-                </div>
+    </div>    
+    <!-- exito delete Modal HTML -->
+    <div id="exitodeleteEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Éxito</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <p>Se ha Borrado el resultado exitosamente</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-success" data-dismiss="modal" value ="Aceptar">
+                    </div>
             </div>
         </div>
-            <!-- error evento Modal HTML -->
-            <div id="errorEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Error</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">					
-                                <p>Ya existe un resultado con ese equipo, por favor intentelo de nuevo</p>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-danger" data-dismiss="modal" value ="Aceptar">
-                            </div>
+    </div>         
+    <!-- error equipo Modal HTML -->
+    <div id="errorEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Error</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                </div>
+                    <div class="modal-body">					
+                        <p>Ya existe un resultado con ese equipo, por favor intentelo de nuevo</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-danger" data-dismiss="modal" value ="Aceptar">
+                    </div>
             </div>
+        </div>
+    </div>     
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -263,65 +270,66 @@
             </div>
         </div>
     </div>
+    
 </div>
 {%endblock%}
 <!-- Fin del Contenido de Pagina -->
 {% block extrajs %}
 <script type="text/javascript">
-    var $ = jQuery.noConflict()
-    $(document).ready(function(){
-        // Abrir modal de edición y ajustar acción del formulario
-        $('#editEmployeeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Botón que activó el modal
-            var resu_id = button.data('id'); // Extraer info de los atributos data-*
-            var nombre_equipo = button.data('nombre_equipo');
-            var nombre_evento = button.data('nombre_evento');
-            var puntuacion = button.data('puntuacion');
-            var puesto = button.data('puesto');
-            var modal = $(this);
-            var actionUrl = "{% url 'Modificar_Resultado' 0 %}".replace('0', resu_id);
-            modal.find('form#editResuForm').attr('action', actionUrl);
- 
-            // Rellenar los campos del formulario con los valores extraídos
-            modal.find('input[name="nombre_equipo"]').val(nombre_equipo);
-            modal.find('input[name="nombre_evento"]').val(nombre_evento);
-            modal.find('input[name="puntuacion"]').val(puntuacion);
-            modal.find('input[name="puesto"]').val(puesto);
+   var $ = jQuery.noConflict()
+   $(document).ready(function(){
+       // Abrir modal de edición y ajustar acción del formulario
+       $('#editEmployeeModal').on('show.bs.modal', function (event) {
+           var button = $(event.relatedTarget); // Botón que activó el modal
+           var resu_id = button.data('id'); // Extraer info de los atributos data-*
+           var nombre_equipo = button.data('nombre_equipo');
+           var nombre_evento = button.data('nombre_evento');
+           var puntuacion = button.data('puntuacion');
+           var puesto = button.data('puesto');
+           var modal = $(this);
+           var actionUrl = "{% url 'Modificar_Resultado' 0 %}".replace('0', resu_id);
+           modal.find('form#editResuForm').attr('action', actionUrl);
+
+           // Rellenar los campos del formulario con los valores extraídos
+           modal.find('input[name="nombre_equipo"]').val(nombre_equipo);
+           modal.find('input[name="nombre_evento"]').val(nombre_evento);
+           modal.find('input[name="puntuacion"]').val(puntuacion);
+           modal.find('input[name="puesto"]').val(puesto);
+       });
+               // Abrir modal de eliminación y ajustar acción del formulario
+       $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
+           var button = $(event.relatedTarget); // Botón que activó el modal
+           var resu_id = button.data('id'); // Extraer info de los atributos data-*
+
+           var modal = $(this);
+           var actionUrl = "{% url 'Eliminar_Resultado' 0 %}".replace('0', resu_id);
+           modal.find('form#deleteResuForm').attr('action', actionUrl);
+       });
+               // Obtener los parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        // Comprobar si existe el parámetro 'created'
+        if (params.has('created')) {
+            // Mostrar la notificación usando modal
+            $('#exitoEmployeeModal').modal('show');
+        }
+        if (params.has('edit')){
+            $('#exitoeditEmployeeModal').modal('show');
+        }
+        if (params.has('delete')){
+            $('#exitodeleteEmployeeModal').modal('show');
+        }
+        if (params.has('error')){
+            $('#errorEmployeeModal').modal('show');
+        }
+
+        $('#incri_id').on('change', function() {
+            var selectedOption = $(this).find('option:selected');
+            var eventoId = selectedOption.data('id_evento');
+            $('#evento_id_input').val(eventoId);
         });
-                // Abrir modal de eliminación y ajustar acción del formulario
-        $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Botón que activó el modal
-            var resu_id = button.data('id'); // Extraer info de los atributos data-*
- 
-            var modal = $(this);
-            var actionUrl = "{% url 'Eliminar_Resultado' 0 %}".replace('0', resu_id);
-            modal.find('form#deleteResuForm').attr('action', actionUrl);
-        });
-                // Obtener los parámetros de la URL
-         const params = new URLSearchParams(window.location.search);
-         // Comprobar si existe el parámetro 'created'
-         if (params.has('created')) {
-             // Mostrar la notificación usando modal
-             $('#exitoEmployeeModal').modal('show');
-         }
-         if (params.has('edit')){
-             $('#exitoeditEmployeeModal').modal('show');
-         }
-         if (params.has('delete')){
-             $('#exitodeleteEmployeeModal').modal('show');
-         }
-         if (params.has('error')){
-             $('#errorEmployeeModal').modal('show');
-         }
- 
-         $('#incri_id').on('change', function() {
-             var selectedOption = $(this).find('option:selected');
-             var eventoId = selectedOption.data('id_evento');
-             $('#evento_id_input').val(eventoId);
-         });
-     
-         // Trigger the change event on page load to set initial value if needed
-         $('#incri_id').trigger('change');
-    });
- </script>
+    
+        // Trigger the change event on page load to set initial value if needed
+        $('#incri_id').trigger('change');
+   });
+</script>
 {% endblock extrajs %}
